@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C.S.Ő EVENT - Rendezvény- és Jegyfoglalási Portál</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Fejléc és Navigáció -->
+  <header class="site-header">
+    <div class="container navbar">
+      <!-- Csőneked Brand Logó -->
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logo.png" alt="Csőneked Logó" class="brand-icon-img" onerror="this.style.display='none'">
+        </div>
+        <div class="brand-title-group">
+          <span class="brand-main-title">C.S.Ő <span>EVENT</span></span>
+          <span class="brand-subtitle">Rendezvény- és Jegyfoglalás</span>
+        </div>
+      </a>
+
+      <!-- Menüpontok -->
+      <nav>
+        <ul class="nav-links">
+          <li><a href="events.html" class="nav-link">Rendezvények</a></li>
+          <li class="nav-admin-only"><a href="admin.html" class="nav-link" style="color: var(--cso-orange);">⚙️ Adminisztráció</a></li>
+        </ul>
+      </nav>
+
+      <!-- Fejléc jobb oldal: Felhasználói profil / bejelentkezés -->
+      <div class="nav-actions">
+        <div id="userGreeting" style="display: flex; align-items: center; gap: 0.65rem;">
+          <!-- JS dinamikusan tölti be -->
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Szekció -->
+  <section class="hero-wrapper">
+    <div class="container hero-inner">
+      <h1 class="hero-heading">
+        Éld át a pillanatot.<br>
+        <span>Foglald le a jegyed egyszerűen!</span>
+      </h1>
+      <p class="hero-description">
+        Böngéssz Magyarország legnépszerűbb rendezvényei között, vásárolj jegyet Hancoin kreditekkel és élvezd az azonnali digitális belépést.
+      </p>
+
+      <!-- Keresősáv -->
+      <div class="search-card">
+        <div class="search-group">
+          <label for="searchQuery">Mit keresel?</label>
+          <input type="text" id="searchQuery" placeholder="Előadó, esemény vagy helyszín...">
+        </div>
+
+        <div class="search-group">
+          <label for="categoryFilter">Kategória</label>
+          <select id="categoryFilter">
+            <option value="all">Minden kategória</option>
+            <option value="fesztival">Fesztiválok</option>
+            <option value="koncert">Koncertek</option>
+            <option value="szinhaz">Színház & Kultúra</option>
+            <option value="konferencia">Konferenciák</option>
+          </select>
+        </div>
+
+        <div class="search-group">
+          <label for="locationFilter">Helyszín</label>
+          <select id="locationFilter">
+            <option value="all">Minden város</option>
+            <option value="Debrecen">Debrecen</option>
+            <option value="Budapest">Budapest</option>
+          </select>
+        </div>
+
+        <div>
+          <button onclick="window.location.href='events.html'" class="btn btn-primary" style="height: 44px; margin-top: 1.15rem; width: 100%;">
+            🔍 Keresés
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kiemelt Rendezvények (Közvetlenül a Hero után, a Hogyan működik rész eltávolítva) -->
+  <main class="section-main">
+    <div class="container">
+      <div class="section-title-bar">
+        <div>
+          <h2>Közelgő kiemelt rendezvények</h2>
+          <p>Válogass a legújabb programok közül és biztosítsd a helyed Hancoinnal!</p>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <span id="eventsCount" style="color: var(--cso-gray); font-size: 0.9rem; font-weight: 600;"></span>
+          <a href="events.html" class="btn btn-outline btn-sm">Összes esemény megtekintése →</a>
+        </div>
+      </div>
+
+      <!-- Kártyák rácsa -->
+      <div id="eventsContainer" class="events-grid">
+        <!-- JS dinamikusan rendereli a kártyákat -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Lábléc -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content-grid">
+        <div class="footer-col">
+          <div class="brand-logo" style="color: #fff; margin-bottom: 1rem;">
+            <div class="brand-icon-wrapper" style="background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);">
+              <img src="assets/logo.png" alt="Csőneked" class="brand-icon-img" onerror="this.style.display='none'">
+            </div>
+            <div class="brand-title-group">
+              <span class="brand-main-title" style="color: #fff;">C.S.Ő <span style="color: var(--cso-orange-soft);">EVENT</span></span>
+              <span class="brand-subtitle" style="color: #8C847E;">Csőneked Csapat</span>
+            </div>
+          </div>
+          <p style="font-size: 0.88rem; line-height: 1.6; color: #8C847E;">
+            Rendezvény- és jegyfoglalási portál Hancoin (Hc) kredit rendszerrel a Debreceni Egyetem kurzusára.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Oldaltérkép</h4>
+          <ul class="footer-links-list">
+            <li><a href="index.html">Főoldal</a></li>
+            <li><a href="events.html">Rendezvények</a></li>
+            <li><a href="bookings.html">Saját foglalások</a></li>
+            <li><a href="wallet.html">Hancoin Vásárlás</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Fizetőeszköz & Kapcsolat</h4>
+          <p style="font-size: 0.85rem; color: #8C847E; line-height: 1.6;">
+            <strong>Fizetőeszköz:</strong> HANCOIN (Hc)<br>
+            <strong>Átváltás:</strong> 1 Ft = 1 Hc<br>
+            <strong>Csapat:</strong> Csőneked
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <div>
+          © <span id="currentYear">2026</span> C.S.Ő EVENT · Készítette a <strong>Csőneked</strong> csapat
+        </div>
+        <div>
+          Debreceni Egyetem Informatikai Kar
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Szkriptek -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/events.js"></script>
+</body>
+</html>
