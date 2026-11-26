@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Esemény részletei - C.S.Ő EVENT</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Fejléc és Navigáció -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logo.png" alt="Csőneked" class="brand-icon-img" onerror="this.style.display='none'">
+        </div>
+        <div class="brand-title-group">
+          <span class="brand-main-title">C.S.Ő <span>EVENT</span></span>
+          <span class="brand-subtitle">Rendezvény- és Jegyfoglalás</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="events.html" class="nav-link active">Rendezvények</a></li>
+          <li class="nav-admin-only"><a href="admin.html" class="nav-link" style="color: var(--cso-orange);">⚙️ Adminisztráció</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="userGreeting" style="display: flex; align-items: center; gap: 0.65rem;"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Vissza gomb sáv -->
+  <div style="background: #FAF8F5; border-bottom: 1px solid var(--cso-border); padding: 0.85rem 0;">
+    <div class="container">
+      <a href="events.html" style="text-decoration: none; color: var(--cso-gray); font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.4rem;">
+        ← Vissza a rendezvények listájához
+      </a>
+    </div>
+  </div>
+
+  <!-- Fő Tartalom: Esemény Adatlap & Jegyfoglalás -->
+  <main class="section-main">
+    <div class="container">
+
+      <div style="display: grid; grid-template-columns: 1.6fr 1.2fr; gap: 2.25rem; align-items: start;">
+        
+        <!-- Bal oszlop: Esemény adatlap -->
+        <article style="background: #FFFFFF; border-radius: var(--radius-lg); border: 1px solid var(--cso-border); overflow: hidden; box-shadow: var(--shadow-sm);">
+          <div style="position: relative; height: 320px; overflow: hidden; background-color: #E8E1DB;">
+            <img id="eventBannerImg" src="" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+            <span id="eventCategory" class="category-chip" style="top: 18px; left: 18px; font-size: 0.8rem; padding: 0.4rem 0.9rem;"></span>
+          </div>
+
+          <div style="padding: 2rem;">
+            <h1 id="eventTitle" style="font-family: var(--font-heading); font-size: 2.1rem; font-weight: 800; color: var(--cso-dark); margin-bottom: 1rem; line-height: 1.25;"></h1>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.75rem; background: #FAF8F5; padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--cso-border);">
+              <div>
+                <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--cso-gray); font-weight: 700;">Időpont</span>
+                <div style="font-size: 1.05rem; font-weight: 700; color: var(--cso-dark); margin-top: 0.2rem;">
+                  📅 <span id="eventDate"></span>
+                </div>
+                <div style="font-size: 0.88rem; color: var(--cso-gray); margin-top: 0.15rem;">Kezdés: <span id="eventTime"></span> óra</div>
+              </div>
+
+              <div>
+                <span style="font-size: 0.75rem; text-transform: uppercase; color: var(--cso-gray); font-weight: 700;">Helyszín</span>
+                <div style="font-size: 1.05rem; font-weight: 700; color: var(--cso-dark); margin-top: 0.2rem;">
+                  📍 <span id="eventLocation"></span>
+                </div>
+                <div style="font-size: 0.88rem; color: var(--cso-gray); margin-top: 0.15rem;">Szervező: <span id="eventOrganizer"></span></div>
+              </div>
+            </div>
+
+            <!-- Férőhely kapacitás panel (Követelmény: pontos darabszámot csak az admin láthat!) -->
+            <div style="margin-bottom: 2rem; padding: 1.25rem; border: 1px solid var(--cso-border); border-radius: var(--radius-md); background: #FFFFFF;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <span style="font-weight: 700; font-size: 0.95rem; color: var(--cso-dark);">Férőhely állapota</span>
+                <!-- Csak adminnak látható pontos szám (hány fő van már / összes kapacitás) -->
+                <span id="adminCapacityCount" style="display: none; font-size: 0.85rem; font-weight: 700; color: var(--cso-orange); background: #FAF5F0; padding: 0.2rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--cso-orange-soft);">
+                  🛡️ Admin: <span id="bookedSeatsNum">0</span> / <span id="totalCapacityNum">0</span> fő (<span id="availableSeatsNum">0</span> szabad)
+                </span>
+              </div>
+              <div class="capacity-meter-bg" style="height: 10px;">
+                <div id="capacityBarFill" class="capacity-meter-fill" style="width: 0%;"></div>
+              </div>
+              <p id="capacityStatusText" style="font-size: 0.88rem; margin-top: 0.5rem; font-weight: 700;"></p>
+            </div>
+
+            <h3 style="font-family: var(--font-heading); font-size: 1.25rem; color: var(--cso-dark); margin-bottom: 0.75rem;">A rendezvényről</h3>
+            <p id="eventDescription" style="font-size: 1rem; line-height: 1.7; color: var(--cso-gray);"></p>
+          </div>
+        </article>
+
+        <!-- Jobb oszlop: Jegyfoglalás űrlap Hancoin fizetéssel -->
+        <aside id="booking" style="position: sticky; top: 96px;">
+          <div id="bookingCardBox" style="background: #FFFFFF; border-radius: var(--radius-lg); border: 2px solid var(--cso-orange); padding: 2rem; box-shadow: var(--shadow-md);">
+            
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; border-bottom: 1px solid var(--cso-border); padding-bottom: 1rem;">
+              <div>
+                <span style="font-size: 0.8rem; text-transform: uppercase; color: var(--cso-gray); font-weight: 700;">Jegyár / fő</span>
+                <div id="eventPrice" style="font-family: var(--font-heading); font-size: 1.85rem; font-weight: 800; color: var(--cso-orange);"></div>
+              </div>
+              <span class="badge badge-success">Garantált belépés</span>
+            </div>
+
+            <!-- Bejelentkezési figyelmeztetés ha vendég -->
+            <div id="bookingAuthPrompt" style="display: none; background: #FAF5F0; border: 1px solid #F2BE97; border-radius: var(--radius-md); padding: 1.15rem; margin-bottom: 1.5rem;">
+              <h4 style="color: var(--cso-orange-hover); font-size: 0.95rem; margin-bottom: 0.35rem;">🔐 Bejelentkezés szükséges a jegyvásárláshoz</h4>
+              <p style="font-size: 0.85rem; color: var(--cso-gray); margin-bottom: 0.85rem;">
+                A jegyeket a Hancoin (Hc) egyenlegedből tudod kifizetni.
+              </p>
+              <div style="display: flex; gap: 0.5rem;">
+                <a href="auth.html" class="btn btn-primary btn-sm" style="flex: 1;">Belépés</a>
+                <a href="auth.html?mode=register" class="btn btn-outline btn-sm" style="flex: 1;">Regisztráció</a>
+              </div>
+            </div>
+
+            <!-- Felhasználó Hancoin egyenleg doboza -->
+            <div id="userWalletInfoBox" style="display: none; background: #FAF8F5; border: 1px solid var(--cso-border); border-radius: var(--radius-md); padding: 0.85rem 1rem; margin-bottom: 1.25rem; font-size: 0.88rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>🪙 Hancoin egyenleged:</span>
+                <strong id="userCurrentBalance" style="color: var(--cso-orange); font-size: 1rem;">0 Hc</strong>
+              </div>
+              <div style="margin-top: 0.35rem; text-align: right;">
+                <a href="wallet.html" style="color: var(--cso-orange-hover); font-size: 0.8rem; font-weight: 700; text-decoration: none;">+ Egyenleg feltöltése →</a>
+              </div>
+            </div>
+
+            <!-- Figyelmeztetés ha nincs elég Hancoin -->
+            <div id="insufficientBalanceAlert" style="display: none; background: var(--cso-danger-bg); border: 1px solid #F5C6CB; border-radius: var(--radius-md); padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.85rem; color: var(--cso-danger);">
+              ⚠️ Nincs elegendő Hancoin az egyenlegeden ehhez a foglaláshoz! <br>
+              <a href="wallet.html" class="btn btn-outline btn-sm" style="margin-top: 0.5rem; width: 100%; border-color: var(--cso-danger); color: var(--cso-danger);">
+                🪙 Hancoin Vásárlása most
+              </a>
+            </div>
+
+            <!-- Foglalási űrlap -->
+            <form id="ticketBookingForm">
+              <div id="bookingFormFields">
+                <div class="form-group">
+                  <label for="ticketCount" class="form-label">
+                    Foglalandó jegyek száma (db)
+                  </label>
+                  <input type="number" id="ticketCount" class="form-control" min="1" max="10" value="1" required>
+                  <small class="form-help">Egyszerre maximum 10 jegy foglalható.</small>
+                </div>
+
+                <div class="form-group">
+                  <label for="buyerName" class="form-label">Jegytulajdonos teljes neve</label>
+                  <input type="text" id="buyerName" class="form-control" placeholder="Pl. Kiss János" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="buyerEmail" class="form-label">E-mail cím a visszaigazoláshoz</label>
+                  <input type="email" id="buyerEmail" class="form-control" placeholder="nev@csoneked.hu" required>
+                </div>
+
+                <!-- Végösszeg összegző Hancoinban -->
+                <div class="order-summary-box">
+                  <div class="summary-line">
+                    <span>Egységár:</span>
+                    <span id="calcUnitPrice">0 Hc</span>
+                  </div>
+                  <div class="summary-line">
+                    <span>Darabszám:</span>
+                    <span id="calcTicketCount">1 db</span>
+                  </div>
+                  <div class="summary-line">
+                    <span>Kezelési díj:</span>
+                    <span style="color: var(--cso-success); font-weight: 700;">Ingyenes (0 Hc)</span>
+                  </div>
+                  <div class="summary-line total">
+                    <span>Fizetendő összeg:</span>
+                    <span id="calcTotalPrice" class="price-highlight">0 Hc</span>
+                  </div>
+                </div>
+
+                <button id="submitBookingBtn" type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                  🎟️ Jegyfoglalás Megerősítése
+                </button>
+              </div>
+            </form>
+
+            <p style="text-align: center; font-size: 0.78rem; color: var(--cso-gray-light); margin-top: 1rem;">
+              🔒 Biztonságos Hancoin fizetés
+            </p>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Sikeres Foglalás Modál & Jegy Voucher -->
+  <div id="successModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 600px;">
+      <div class="modal-header" style="background: var(--cso-dark); color: #fff; border-bottom: 2px solid var(--cso-orange);">
+        <h3 class="modal-title" style="color: #fff;">🎉 Sikeres Jegyfoglalás!</h3>
+        <button class="modal-close-btn" style="color: #fff;" onclick="closeModal('successModal')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="color: var(--cso-gray); font-size: 0.95rem; margin-bottom: 1.25rem;">
+          Köszönjük a foglalásod! A belépőt sikeresen kifizetted Hancoin egyenlegedből és rögzítettük a rendszerben.
+        </p>
+
+        <!-- Digitális Jegy (Voucher) -->
+        <div class="ticket-pass" style="box-shadow: none;">
+          <div class="ticket-pass-header">
+            <div>
+              <span style="font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: #8C847E;">Foglalási azonosító</span>
+              <div id="voucherBookingCode" class="ticket-pass-code">CSO-2026-XXXX</div>
+            </div>
+            <div>
+              <span class="badge badge-success">ÉRVÉNYES BELÉPŐ</span>
+            </div>
+          </div>
+
+          <div class="ticket-pass-body">
+            <div>
+              <h4 id="voucherEventTitle" style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--cso-dark); margin-bottom: 0.4rem;"></h4>
+              <p id="voucherEventDate" style="font-size: 0.85rem; color: var(--cso-gray); margin-bottom: 1rem;"></p>
+
+              <div class="ticket-pass-grid">
+                <div class="ticket-pass-item">
+                  <span class="ticket-pass-label">Jegyek</span>
+                  <span id="voucherTicketCount" class="ticket-pass-value"></span>
+                </div>
+                <div class="ticket-pass-item">
+                  <span class="ticket-pass-label">Levont összeg</span>
+                  <span id="voucherTotalPrice" class="ticket-pass-value" style="color: var(--cso-orange);"></span>
+                </div>
+                <div class="ticket-pass-item" style="grid-column: 1 / -1;">
+                  <span class="ticket-pass-label">Név</span>
+                  <span id="voucherBuyerName" class="ticket-pass-value"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ticket-qr-section">
+              <div class="fake-qr-code"></div>
+              <span style="font-size: 0.65rem; color: var(--cso-gray); font-weight: 700;">CSO-QR</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button onclick="window.print()" class="btn btn-outline btn-sm">🖨️ Nyomtatás / Mentés</button>
+        <a href="bookings.html" class="btn btn-primary btn-sm">Saját foglalásaim megtekintése →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lábléc -->
+  <footer class="site-footer">
+    <div class="container footer-bottom-bar" style="border-top: none; padding-top: 0; justify-content: center;">
+      <div>
+        © <span id="currentYear">2026</span> C.S.Ő EVENT · Készítette a <strong>Csőneked</strong> csapat.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Szkriptek -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/event-detail.js"></script>
+</body>
+</html>

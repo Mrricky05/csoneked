@@ -2,7 +2,6 @@ target/
 *.log
 .DS_Store
 Thumbs.db
-LEIRAS.txt
 *.db
 *.db-journal
 .idea/
