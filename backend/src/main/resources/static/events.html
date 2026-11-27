@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rendezvények - C.S.Ő EVENT</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Fejléc és Navigáció -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logo.png" alt="Csőneked" class="brand-icon-img" onerror="this.style.display='none'">
+        </div>
+        <div class="brand-title-group">
+          <span class="brand-main-title">C.S.Ő <span>EVENT</span></span>
+          <span class="brand-subtitle">Rendezvény- és Jegyfoglalás</span>
+        </div>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="events.html" class="nav-link active">Rendezvények</a></li>
+          <li class="nav-admin-only"><a href="admin.html" class="nav-link" style="color: var(--cso-orange);">⚙️ Adminisztráció</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <div id="userGreeting" style="display: flex; align-items: center; gap: 0.65rem;"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Oldalcím & Szűrő Fejléc -->
+  <section style="background: linear-gradient(135deg, #1C1C1C 0%, #2A1C15 100%); color: #fff; padding: 3rem 0 2.25rem; border-bottom: 3px solid var(--cso-orange);">
+    <div class="container">
+      <h1 style="font-family: var(--font-heading); font-size: 2.4rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.5px;">
+        Rendezvények Böngészése
+      </h1>
+      <p style="color: #D3CBC4; font-size: 1.05rem;">
+        Találd meg a kedvenc koncertedet, előadásodat vagy fesztiválodat és vásárolj jegyet!
+      </p>
+
+      <!-- Részletes szűrősáv -->
+      <div class="search-card" style="margin-top: 1.75rem;">
+        <div class="search-group">
+          <label for="searchQuery">Keresés kulcsszó alapján</label>
+          <input type="text" id="searchQuery" placeholder="Előadó, cím vagy helyszín...">
+        </div>
+
+        <div class="search-group">
+          <label for="categoryFilter">Kategória</label>
+          <select id="categoryFilter">
+            <option value="all">Minden kategória</option>
+            <option value="fesztival">Fesztivál</option>
+            <option value="koncert">Koncert & Zene</option>
+            <option value="szinhaz">Színház & Kultúra</option>
+            <option value="konferencia">Konferencia & Workshop</option>
+          </select>
+        </div>
+
+        <div class="search-group">
+          <label for="locationFilter">Helyszín / Város</label>
+          <select id="locationFilter">
+            <option value="all">Összes helyszín</option>
+            <option value="Debrecen">Debrecen</option>
+            <option value="Budapest">Budapest</option>
+          </select>
+        </div>
+
+        <div class="search-group">
+          <label for="sortBy">Rendezés</label>
+          <select id="sortBy">
+            <option value="date-asc">Dátum szerint (legkorábbi)</option>
+            <option value="date-desc">Dátum szerint (későbbi)</option>
+            <option value="price-asc">Jegyár növekvő (Hc)</option>
+            <option value="price-desc">Jegyár csökkenő (Hc)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rendezvények Listája -->
+  <main class="section-main">
+    <div class="container">
+      <div class="section-title-bar">
+        <div>
+          <h2>Elérhető rendezvények</h2>
+        </div>
+        <div>
+          <span id="eventsCount" class="badge badge-info" style="font-size: 0.9rem; padding: 0.4rem 0.8rem;"></span>
+        </div>
+      </div>
+
+      <div id="eventsContainer" class="events-grid">
+        <!-- JS dinamikusan rendereli a kártyákat -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Lábléc -->
+  <footer class="site-footer">
+    <div class="container footer-bottom-bar" style="border-top: none; padding-top: 0;">
+      <div>
+        © <span id="currentYear">2026</span> C.S.Ő EVENT · Készítette a <strong>Csőneked</strong> csapat.
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Szkriptek -->
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/events.js"></script>
+</body>
+</html>
